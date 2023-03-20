@@ -1,5 +1,6 @@
 #define WIFI_Kit_32
 #include "heltec.h"
+#include "WiFi.h"
 
 SSD1306Wire factory_display(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_128_64);
 
