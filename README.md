@@ -1,6 +1,8 @@
 # WiFi_Ducky
 
-[OLED Documentation](docs/OLED.md)
+[OLED Documentation](docs/notes/OLED.md)
+[WiFi Documentation](docs/notes/WiFi.md)
+[WebServer Documentation](docs/notes/WebServer.md)
 
 ### The plan:
 
