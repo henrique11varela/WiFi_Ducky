@@ -21,9 +21,18 @@
         }
     </style>
     <script defer>
-        window.addEventListener('load', () => {
-            
+        const Socket = new WebSocket(`ws://${window.location.hostname}:81/`);
+        Socket.addEventListener('open', () => {console.log('WebSocket open')});
+        Socket.addEventListener('close', () => {console.log('WebSocket closed')});
+        Socket.addEventListener('message', (e) => {
+            console.log(e.data);
         });
+        function sendCommand(key, value){
+            let obj = {
+                key: value
+            };
+            Socket.send('hi'); //TODO: JSON STUFF
+        }
     </script>
 </head>
 <body>
@@ -34,6 +43,8 @@
         <a href='/ledOff'>
             <div class='btn'>Led Off</div>
         </a>
+        <button class='btn' onclick='sendCommand(`ON`, 3)'>Led On</button>
+        <button class='btn' onclick='sendCommand(`OFF`, 3)'>Led Off</button>
     </div>
 </body>
 </html>
