@@ -36,7 +36,8 @@
             document.getElementById("ledon").addEventListener("click", ()=>{
                 sendCommand(
                     { 
-                        "type": "led", 
+                        "msg": "led",
+                        "type": "bool", 
                         "led": true 
                     }
                 )
@@ -44,7 +45,8 @@
             document.getElementById("ledoff").addEventListener("click", ()=>{
                 sendCommand(
                     { 
-                        "type": "led", 
+                        "msg": "led",
+                        "type": "bool", 
                         "led": false 
                     }
                 )

@@ -18,8 +18,8 @@ IPAddress subnet(255, 255, 255, 0);
 /* WebServer and WebSocket init */
 WebServer server(80);
 WebSocketsServer socket(81);
-DynamicJsonDocument in(200);
-DynamicJsonDocument out(200);
+StaticJsonDocument<200> in;
+StaticJsonDocument<200> out;
 
 void turnLedOn()
 {
@@ -43,30 +43,41 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
     break;
   case WStype_TEXT:
   {
-    String msg = "";
-    for (size_t i = 0; i < length; i++)
-    {
-      msg += (char)payload[i];
-    }
-    Serial.println(msg);
-    /* DeserializationError error = deserializeJson(in, payload);
+    DeserializationError error = deserializeJson(in, payload);
     if (error)
     {
-      Serial.print("deserializeJson() failed: ");
-      Serial.println(error.c_str());
+      Serial.print(F("deserializeJson() failed: "));
+      Serial.println(error.f_str());
       return;
     }
-    JsonObject obj = in.to<JsonObject>();
-    bool ledState = obj["led"];
-    Serial.print("Led: ");
-    Serial.println(ledState ? "On" : "Off"); */
+    String msg = in["msg"];
+    String type = in["type"];
+    Serial.print(msg);
+    Serial.print(" ");
+    Serial.print(type);
+    Serial.print(" ");
+
+    if (type == "bool")
+    {
+      bool b_value = in[msg];
+      if (msg == "led")
+      {
+        digitalWrite(LED_BUILTIN, b_value);
+      }
+      Serial.println(b_value);
+    }
+    else if (type == "string")
+    {
+      String s_value = in[msg];
+      Serial.println(s_value);
+    }
   }
+  break;
   // send message to client
   // webSocket.sendTXT(num, "message here");
 
   // send data to all connected clients
   // webSocket.broadcastTXT("message here");
-  break;
   default:
     Serial.print("shit happened! ");
     Serial.println(type);
