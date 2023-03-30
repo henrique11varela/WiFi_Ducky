@@ -3,6 +3,7 @@
 #include "WiFi.h"             //wifi module
 #include "WebServer.h"        //WebServer to host website
 #include "WebSocketsServer.h" //WebSocket to communicate
+#include "ArduinoJson.h"
 #include "html.h"
 
 SSD1306Wire factory_display(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_128_64); // OLED
@@ -17,15 +18,19 @@ IPAddress subnet(255, 255, 255, 0);
 /* WebServer and WebSocket init */
 WebServer server(80);
 WebSocketsServer socket(81);
+DynamicJsonDocument in(200);
+DynamicJsonDocument out(200);
 
 void turnLedOn()
 {
   digitalWrite(LED_BUILTIN, HIGH);
 }
+
 void turnLedOff()
 {
   digitalWrite(LED_BUILTIN, LOW);
 }
+
 void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 {
   switch (type)
@@ -44,6 +49,17 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
       msg += (char)payload[i];
     }
     Serial.println(msg);
+    /* DeserializationError error = deserializeJson(in, payload);
+    if (error)
+    {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+      return;
+    }
+    JsonObject obj = in.to<JsonObject>();
+    bool ledState = obj["led"];
+    Serial.print("Led: ");
+    Serial.println(ledState ? "On" : "Off"); */
   }
   // send message to client
   // webSocket.sendTXT(num, "message here");
@@ -52,10 +68,12 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
   // webSocket.broadcastTXT("message here");
   break;
   default:
-    Serial.println("shit happened!");
+    Serial.print("shit happened! ");
+    Serial.println(type);
     break;
   }
 }
+
 void setup()
 {
   pinMode(LED_BUILTIN, OUTPUT); // Built in LED setup
@@ -87,6 +105,3 @@ void loop()
   server.handleClient(); // webserver method that handles all Clients
   socket.loop();
 }
-
-
-//TODO: JSON WORK
