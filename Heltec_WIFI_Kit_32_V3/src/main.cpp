@@ -18,18 +18,7 @@ IPAddress subnet(255, 255, 255, 0);
 /* WebServer and WebSocket init */
 WebServer server(80);
 WebSocketsServer socket(81);
-StaticJsonDocument<200> in;
-StaticJsonDocument<200> out;
-
-void turnLedOn()
-{
-  digitalWrite(LED_BUILTIN, HIGH);
-}
-
-void turnLedOff()
-{
-  digitalWrite(LED_BUILTIN, LOW);
-}
+StaticJsonDocument<400> in;
 
 void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 {
@@ -52,10 +41,6 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
     }
     String msg = in["msg"];
     String type = in["type"];
-    Serial.print(msg);
-    Serial.print(" ");
-    Serial.print(type);
-    Serial.print(" ");
 
     if (type == "bool")
     {
@@ -63,21 +48,24 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
       if (msg == "led")
       {
         digitalWrite(LED_BUILTIN, b_value);
-      }
+        String str = b_value ? "true" : "false";
+        String objString = "{\"msg\":\"led\",\"type\":\"bool\",\"led\":" + str + "}";
+        socket.broadcastTXT(objString);
+      }/* asdasdasd */
       Serial.println(b_value);
     }
     else if (type == "string")
     {
       String s_value = in[msg];
+      if (msg == "screenTXT")
+      {
+        factory_display.drawString(0, 16, s_value);
+        factory_display.display();
+      }
       Serial.println(s_value);
     }
   }
   break;
-  // send message to client
-  // webSocket.sendTXT(num, "message here");
-
-  // send data to all connected clients
-  // webSocket.broadcastTXT("message here");
   default:
     Serial.print("shit happened! ");
     Serial.println(type);
