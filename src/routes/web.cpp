@@ -1,5 +1,6 @@
 #include "web.h"
-#include "../html.h"
+#include "./resources/views/views.h"
+
 /**
  * ROUTES
  */
@@ -12,7 +13,7 @@ String* pages;
 
 void root()
 {
-    server.send(200, "text/html", html);
+    server.send(200, "text/html", rootView());
 }
 
 void routesInit()

@@ -5,6 +5,14 @@
 
 WebSocketsServer socket(81);
 
+/**
+ * function that handles a Websocket event
+ * 
+ * @param num client number
+ * @param type type of message
+ * @param payload JSON char array
+ * @param length size of payload
+*/
 void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 {
   switch (type)
@@ -44,7 +52,7 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
       String s_value = readJsonString(msg);
       if (msg == "screenTXT")
       {
-        displayMessage(s_value);
+        displayMessage(1, s_value);
       }
       Serial.println(s_value);
     }
@@ -57,12 +65,18 @@ void socketEventHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t len
   }
 }
 
+/**
+ * Websocket setup function
+*/
 void socketInit()
 {
   socket.begin();
   socket.onEvent(socketEventHandler);
 }
 
+/**
+ * Websocket loop function
+*/
 void socketLoop(){
   socket.loop();
 }

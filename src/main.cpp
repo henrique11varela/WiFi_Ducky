@@ -27,7 +27,7 @@ void setup()
 
   // OLED display ip
   displaySetup();
-  displayIp(WiFi.softAPIP().toString());
+  displayMessage(0, WiFi.softAPIP().toString());
   
   // Webserver and Websocket setup
   routesInit();
