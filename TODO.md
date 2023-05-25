@@ -6,6 +6,9 @@ Project Description
 
 ### Todo
 
+- [ ] build components contect  
+- [ ] build views context  
+- [ ] separate views and controllers?  
 - [ ] server side Json  
 
 ### In Progress

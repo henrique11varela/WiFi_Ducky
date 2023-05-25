@@ -1,6 +1,6 @@
 #define WIFI_Kit_32 // heltec stuff
 #include "heltec.h"
-#include "./display.h"
+#include "display.h"
 
 /**
  * The object that represents the screen

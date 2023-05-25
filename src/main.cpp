@@ -2,8 +2,8 @@
 #include "heltec.h"
 #include "WiFi.h"
 #include "./routes/web.h"
-#include "./app/socket.h"
-#include "./app/display.h"
+#include "socket.h"
+#include "display.h"
 
 /* AccessPointInfo */
 const char *ssid = "Woof";

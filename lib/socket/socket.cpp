@@ -1,7 +1,7 @@
 #include "WebSocketsServer.h" //WebSocket to communicate
-#include "./socket.h"
-#include "./json.h"
-#include "./display.h"
+#include "socket.h"
+#include "json.h"
+#include "display.h"
 
 WebSocketsServer socket(81);
 
